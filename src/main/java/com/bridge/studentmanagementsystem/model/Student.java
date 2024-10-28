@@ -25,6 +25,7 @@ public class Student {
 //    courses (List of Strings) - Example: ["Math", "Science"]
 //    address (Object containing street, city, state, and postal code)
 
+
     private int id;
     private String name;
     private int age;

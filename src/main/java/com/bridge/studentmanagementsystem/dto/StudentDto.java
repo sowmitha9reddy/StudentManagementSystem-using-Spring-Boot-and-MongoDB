@@ -23,6 +23,7 @@ public class StudentDto {
     @Pattern(regexp = "^[A-Z][a-z]{2,}( [A-Z][a-z]{2,})*$",message="Invalid Name")
     private String name;
 
+
     @NotNull
     @Min(value=10,message="Age Should be more than 10")
     @Max(value=60,message="age should be less than 60")
