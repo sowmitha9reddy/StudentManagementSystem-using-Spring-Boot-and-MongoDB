@@ -4,6 +4,7 @@ import com.bridge.studentmanagementsystem.dto.StudentDto;
 import com.bridge.studentmanagementsystem.globalexceptionhandler.StudentNotFoundException;
 import com.bridge.studentmanagementsystem.model.Student;
 import com.bridge.studentmanagementsystem.repository.StudentRepository;
+import com.bridge.studentmanagementsystem.util.EmailService;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -30,15 +31,14 @@ public class StudentServiceDaoImpl implements StudentServiceDao {
     @Autowired
     MongoConverter converter;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public StudentDto addStudent(StudentDto studentDto) {
 
         Student student = new Student(studentDto);
-//        List<Address> addresses = studentDto.getAddress();
-//
-//        if (addresses != null) {
-//            addresses.forEach(address -> address.setPolicyHolder(policyHolderData));
-//        }
+        emailService.sendEmail(studentDto.getEmail(), "Your Registration is successfull",student.toString());
         return mapToStudentDto(studentRepository.save(student));
 
 
@@ -75,6 +75,7 @@ public class StudentServiceDaoImpl implements StudentServiceDao {
      student.setEmail(studentDto.getEmail());
      student.setAddress(studentDto.getAddress());
      student.setCourses(studentDto.getCourses());
+        emailService.sendEmail(studentDto.getEmail(), "Your Details updated  successfully",student.toString());
      return mapToStudentDto(studentRepository.save(student));
 
 

@@ -6,6 +6,7 @@ import com.bridge.studentmanagementsystem.service.StudentServiceDaoImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,20 +18,30 @@ public class StudentController {
      @Autowired
      private StudentServiceDaoImpl studentServiceDaoImpl;
 
+    @PostMapping(value="/welcome")
+    public String welcome() {
+        return "Welcome to Student management System";
+    }
+
     @PostMapping(value="/addstd")
     public StudentDto addStudent(@Valid @RequestBody StudentDto studentDto) {
         return studentServiceDaoImpl.addStudent(studentDto);
     }
 
+
     @GetMapping(value="/getStud/{id}")
+    @PreAuthorize("hasAuthority('USER')")
     public StudentDto getStudent(@PathVariable int id) {
         return  studentServiceDaoImpl.getStudent(id);
     }
 
     @GetMapping(value="/getStuds")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<StudentDto> getStudents() {
         return  studentServiceDaoImpl.getStudents();
     }
+
+
 
     @GetMapping(value="/getStuds/{age1}/{age2}")
     public List<StudentDto> getStudentsByAge(@PathVariable int age1, @PathVariable int age2) {
